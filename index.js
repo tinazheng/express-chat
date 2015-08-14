@@ -1,12 +1,22 @@
 var express = require('express');
-var app = express();
-var port = 9000;
+var app = require('express')();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
 app.use(express.static('public'));
 
 app.get('/', function(req, res) {
-	res.sendFile("index.html");
+	res.sendFile(__dirname + '/index.html');
 });
 
-app.listen(port);
-console.log("Listening on port " + port);
+io.on('connection', function(socket) {
+	socket.on('chat message', function(msg) {
+		io.emit('chat message', msg);
+	})
+	socket.emit('chatMessage', "hey there, this is a message");
+})
+
+http.listen(3000, function() {
+	console.log('listening on *:3000');
+});
+

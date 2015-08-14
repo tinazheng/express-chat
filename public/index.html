@@ -3,6 +3,20 @@
 <head>
 </head>
 <body>
-	<h1> Hellllooo world! </h1>
+	<h3> Websocket example with React, Flux, SocketIO, Express, and MongoDB</h3>
+	<div id="react-content"></div>
+
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+	var socket = io.connect('http://localhost');
+	var startSocket = function(handleChatMessageAction) {
+		socket.on('chatMessage', function(data) {
+			console.log(data);
+			handleChatMessageAction(data);
+		});
+	}
+</script>
+<script src="build/js/bundle.js"></script>
 </body>
 </html>
