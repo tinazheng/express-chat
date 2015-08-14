@@ -5,6 +5,7 @@
 <body>
 	<h3> Websocket example with React, Flux, SocketIO, Express, and MongoDB</h3>
 	<div id="react-content"></div>
+	<button type="button" id="sendMessageButton">Send Message</button>
 
 <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
@@ -12,10 +13,13 @@
 	var socket = io.connect('http://localhost');
 	var startSocket = function(handleChatMessageAction) {
 		socket.on('chatMessage', function(data) {
-			console.log(data);
+			console.log("Client received message: " + data);
 			handleChatMessageAction(data);
 		});
 	}
+	$('#sendMessageButton').click(function(e) {
+		socket.emit('chatMessage', 'message sent from button');
+	});
 </script>
 <script src="build/js/bundle.js"></script>
 </body>

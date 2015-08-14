@@ -1,19 +1,27 @@
+/* the production version of this file lives in ~/public/build/js/bundle.js */
+
 var React = require('react');
+var MessageStore = require('../../stores/messageStore');
+var ChatActions = require('../../actions/chatActions');
+var alt = ('../../dispatcher');
 
 var Container = React.createClass({displayName: "Container",
 	getInitialState: function() { 
-		return({
-			listOfMessages: ['hello', 'world']
-		});
+		return MessageStore.getState();
+	},
+	_onChange: function() {
+		this.setState(MessageStore.getState());
 	},
 	componentDidMount: function() {
-		this.startSocketConnection(this.handleIncomingMessage.bind(this));
-		console.log("container component mounted")
+		MessageStore.listen(this._onChange);
+		this.startSocketConnection(this.emitChatAction);
+		console.log("container component mounted");
 	},
-	handleIncomingMessage: function(message) {
-		this.setState({
-			listOfMessages: [message].concat(this.state.listOfMessages)
-		});
+	componentWillUnmount: function() {
+		MessageStore.unlisten(this._onChange);
+	},
+	emitChatAction: function(data) {
+		ChatActions.addMessage(data);
 	},
 	startSocketConnection: function(action) {
 		startSocket(action);
@@ -22,10 +30,8 @@ var Container = React.createClass({displayName: "Container",
 		return(
 			React.createElement("ul", {id: "socket-messages"}, 
 				"Here are some messages!", 
-				this.state.listOfMessages.map(function(message) {
-					return(
-						React.createElement("li", null, message)
-					);
+				MessageStore.getState().listOfMessages.map(function(message) {
+					return(React.createElement("li", null, message));
 				})
 			)
 		);

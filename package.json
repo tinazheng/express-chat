@@ -3,13 +3,13 @@
   "version": "0.0.0",
   "description": "Sample app for using sockets with React",
   "dependencies": {
+  	"alt": "^0.17.1",
     "socket.io": "latest",
     "express": "latest",
     "mongodb": "~2.0.33"
   },
   "author": "developer",
   "devDependencies": {
-    "alt": "^0.17.1",
     "bower": "^1.4.1",
     "browserify": "^11.0.1",
     "gulp": "^3.9.0",

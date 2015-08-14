@@ -1,21 +1,19 @@
-var alt = require('alt');
+var alt = require('../dispatcher');
 var chatActions = require('../actions/chatActions');
 
-var messageStore = function() {
-	return({
-		constructor: function() {
-			this.listOfMessages = ['hello', 'world'];
-		},
-		handleIncomingMessage: function(message) {
-			this.listOfMessages = [message].concat(this.messages);
-		},
-		bindListeners: function() {
-			return ({
-				handleIncomingMessage: chatActions.ADD_MESSAGE
-			});
-		}
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
+var MessageStore = function MessageStore() {
+	_classCallCheck(this, MessageStore);
+	this.listOfMessages = ['hello', 'world'];
+	this.onIncomingMessage = function (message) {
+		console.log('message store recognizes incoming message');
+		this.listOfMessages = [message].concat(this.listOfMessages);
+	};
+	this.bindListeners({
+		onIncomingMessage: chatActions.ADD_MESSAGE
 	});
-}
+};
 
-module.exports = alt.createStore(messageStore, 'messageStore');
+
+module.exports = alt.createStore(MessageStore);
