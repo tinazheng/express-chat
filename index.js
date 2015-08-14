@@ -2,7 +2,14 @@ var express = require('express');
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var mongoose = require('mongoose');
+var chatMessage = require('./models/chatMessage');
+var config = require('./config');
 
+mongoose.connect(config.database);
+mongoose.connection.on('error', function() {
+	console.info('Error: Could not connect to MongoDB.');
+});
 app.use(express.static('public'));
 
 app.get('/', function(req, res) {
