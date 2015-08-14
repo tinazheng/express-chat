@@ -5,7 +5,7 @@ var chatMessageSchema = new mongoose.Schema({
 	recipient: String,
 	messages: {
 		message: {
-			timestamp: Date,
+			timestamp: string,
 			text: String
 		}
 	}
