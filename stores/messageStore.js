@@ -4,10 +4,10 @@ var chatActions = require('../actions/chatActions');
 var messageStore = function() {
 	return({
 		constructor: function() {
-			this.messages = [];
+			this.listOfMessages = ['hello', 'world'];
 		},
 		handleIncomingMessage: function(message) {
-			this.messages = [message].concat(this.messages);
+			this.listOfMessages = [message].concat(this.messages);
 		},
 		bindListeners: function() {
 			return ({

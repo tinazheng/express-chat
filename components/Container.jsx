@@ -1,19 +1,19 @@
+/* the production version of this file lives in ~/public/build/js/bundle.js */
+
 var React = require('react');
+var MessageStore = require('../../../stores/messageStore');
 
 var Container = React.createClass({
 	getInitialState: function() { 
-		return({
-			listOfMessages: ['hello', 'world']
-		});
+		return MessageStore.getState();
 	},
 	componentDidMount: function() {
+		MessageStore.listen(this.onChange);
 		this.startSocketConnection(this.handleIncomingMessage.bind(this));
 		console.log("container component mounted")
 	},
-	handleIncomingMessage: function(message) {
-		this.setState({
-			listOfMessages: [message].concat(this.state.listOfMessages)
-		});
+	componentWillUnmount: function() {
+		MessageStore.unlisten(this.onChange);
 	},
 	startSocketConnection: function(action) {
 		startSocket(action);
