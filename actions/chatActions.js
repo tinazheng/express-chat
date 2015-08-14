@@ -2,7 +2,7 @@ var alt = require('../alt');
 
 var chatActions = function() {
 	return({
-		handleIncomingMessage(message) {
+		addMessage(message) {
 			this.dispatch(message);
 		}
 	});
